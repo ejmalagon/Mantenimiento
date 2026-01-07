@@ -1,20 +1,29 @@
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Disponibilidad – Salón del Reino</title>
-  <p>
-Entre todos realizaremos un trabajo importante que ayudará a proteger el Salón del Reino y las edificaciones vecinas. Agradecemos sinceramente su apoyo; cuando trabajamos juntos, el esfuerzo es menor y los resultados son mejores.</p>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      background: #f4f6f8;
       padding: 20px;
     }
 
     h1, h2 {
       text-align: center;
+    }
+
+    .mensaje {
+      background: #ffffff;
+      max-width: 700px;
+      margin: 0 auto 20px auto;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
     .formulario {
@@ -23,23 +32,37 @@ Entre todos realizaremos un trabajo importante que ayudará a proteger el Salón
       margin: auto;
       padding: 20px;
       border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     label {
       display: block;
-      margin-top: 10px;
+      margin-top: 12px;
       font-weight: bold;
     }
 
-    input, select, textarea, button {
+    input, select, textarea {
       width: 100%;
       padding: 8px;
       margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
 
     button {
-      margin-top: 15px;
+      width: 100%;
+      margin-top: 20px;
+      padding: 10px;
+      background: #2c7be5;
+      color: white;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #1a68d1;
     }
 
     table {
@@ -47,17 +70,22 @@ Entre todos realizaremos un trabajo importante que ayudará a proteger el Salón
       margin-top: 30px;
       border-collapse: collapse;
       background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     th, td {
-      border: 1px solid #ccc;
-      padding: 8px;
+      border: 1px solid #ddd;
+      padding: 10px;
       text-align: center;
       vertical-align: top;
     }
 
     th {
-      background: #eee;
+      background: #f0f0f0;
+    }
+
+    small {
+      color: #555;
     }
   </style>
 </head>
@@ -66,9 +94,17 @@ Entre todos realizaremos un trabajo importante que ayudará a proteger el Salón
 
 <h1>Disponibilidad para trabajar en el Salón del Reino</h1>
 
+<div class="mensaje">
+  Entre todos realizaremos un trabajo importante que ayudará a proteger el Salón del Reino y las edificaciones vecinas.  
+  Agradecemos sinceramente su apoyo; <strong>cuando trabajamos juntos, el esfuerzo es menor y los resultados son mejores.</strong>
+</div>
+
 <div class="formulario">
   <label>Nombre</label>
-  <input type="text" id="nombre">
+  <input type="text" id="nombre" placeholder="Tu nombre">
+
+  <label>Número de WhatsApp</label>
+  <input type="tel" id="whatsapp" placeholder="Ej: 3001234567">
 
   <label>Día</label>
   <select id="dia">
@@ -125,21 +161,24 @@ Entre todos realizaremos un trabajo importante que ayudará a proteger el Salón
 
   window.inscribirse = function() {
     const nombre = document.getElementById("nombre").value.trim();
+    const whatsapp = document.getElementById("whatsapp").value.trim();
     const dia = document.getElementById("dia").value;
     const turno = document.getElementById("turno").value;
     const herramientas = document.getElementById("herramientas").value.trim();
 
-    if (!nombre) {
-      alert("Por favor escribe tu nombre");
+    if (!nombre || !whatsapp) {
+      alert("Por favor escribe tu nombre y número de WhatsApp");
       return;
     }
 
     push(ref(db, `disponibilidad/${dia}/${turno}`), {
       nombre,
+      whatsapp,
       herramientas
     });
 
     document.getElementById("nombre").value = "";
+    document.getElementById("whatsapp").value = "";
     document.getElementById("herramientas").value = "";
   };
 
@@ -152,7 +191,11 @@ Entre todos realizaremos un trabajo importante que ayudará a proteger el Salón
     for (let dia in data) {
       for (let turno in data[dia]) {
         const personas = Object.values(data[dia][turno])
-          .map(p => `${p.nombre}<br><small>${p.herramientas || ""}</small>`)
+          .map(p => `
+            <strong>${p.nombre}</strong><br>
+            <small>📱 ${p.whatsapp}</small><br>
+            <small>🧰 ${p.herramientas || "—"}</small>
+          `)
           .join("<hr>");
 
         const fila = document.createElement("tr");
