@@ -1,8 +1,12 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Disponibilidad – Salón del Reino</title>
+  <p>Gracias por su disposición para colaborar en este proyecto.
+
+Entre todos realizaremos un trabajo importante que ayudará a proteger el Salón del Reino y las edificaciones vecinas. Se abrirán zanjas para instalar tubos perforados, gravilla y mallas de geotextil, con el fin de recoger las aguas lluvias y dirigirlas a la caja recolectora principal, evitando así daños en las estructuras y paredes.
+
+Agradecemos sinceramente su apoyo; cuando trabajamos juntos, el esfuerzo es menor y los resultados son mejores.</p>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
